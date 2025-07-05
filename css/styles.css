@@ -1,0 +1,216 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0c0e1d, #1a1a2e);
+    color: white;
+    height: 100vh;
+    touch-action: none;
+}
+
+canvas {
+    display: block;
+}
+
+#ui-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#info-panel {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 20px;
+    background: rgba(10, 12, 28, 0.85);
+    border-radius: 15px;
+    border: 1px solid rgba(64, 156, 255, 0.4);
+    max-width: 320px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+}
+
+#info-panel h1 {
+    margin: 0 0 15px 0;
+    font-size: 1.8rem;
+    background: linear-gradient(to right, #4d94ff, #8a2be2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.controls-section {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.controls-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #4d94ff;
+}
+
+.key {
+    display: inline-block;
+    padding: 3px 8px;
+    background: rgba(77, 148, 255, 0.2);
+    border-radius: 4px;
+    border: 1px solid rgba(77, 148, 255, 0.4);
+    font-family: monospace;
+    margin: 0 2px;
+}
+
+#interaction-prompt {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 25px;
+    background: rgba(10, 12, 28, 0.9);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    display: none;
+    border: 1px solid rgba(77, 148, 255, 0.6);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: pulse 2s infinite;
+    pointer-events: auto;
+}
+
+#loading-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0a0c1c;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 1s ease;
+}
+
+#loading-bar-container {
+    width: 300px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+#loading-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4d94ff, #8a2be2);
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+#loading-text {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #4d94ff;
+    text-align: center;
+}
+
+#status-bar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    background: rgba(10, 12, 28, 0.85);
+    border-radius: 12px;
+    border: 1px solid rgba(77, 148, 255, 0.4);
+    display: flex;
+    gap: 15px;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-icon {
+    width: 24px;
+    height: 24px;
+    background: rgba(77, 148, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(77, 148, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(77, 148, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(77, 148, 255, 0); }
+}
+
+.hidden {
+    display: none !important;
+}
+
+#hud {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#speedometer {
+    background: rgba(10, 12, 28, 0.7);
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(77, 148, 255, 0.4);
+    min-width: 150px;
+}
+
+#speed-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #4d94ff, #8a2be2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#mode-indicator {
+    padding: 5px 10px;
+    background: rgba(77, 148, 255, 0.2);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(77, 148, 255, 0.4);
+}
+
+.debug-panel {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+}
