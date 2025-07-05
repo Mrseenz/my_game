@@ -1,8 +1,8 @@
-// Import composer from scene.js
 import { initScene, scene, camera, renderer, world, composer } from './scene.js';
 import { initLights } from './lighting.js';
 import { Player } from './player.js';
-import { Vehicle, preLoadCarModels, carModelPaths, loadedCarModels } from './vehicle.js';
+// Import only Vehicle class, no pre-loading functions or model paths from vehicle.js
+import { Vehicle } from './vehicle.js';
 import { createCity } from './city.js';
 import { initEventListeners, keys } from './events.js';
 import { updateProgress, interactionPrompt, loadingScreen, loadingBar, loadingText, speedValue, modeIndicator, debugKeys } from './ui.js';
@@ -37,7 +37,7 @@ function animate() {
         let minDistance = 5;
 
         vehicles.forEach(v => {
-            if (v.mesh && player.mesh) {
+            if (v.mesh && player.mesh) { // Check meshes exist
                 const distance = player.mesh.position.distanceTo(v.mesh.position);
                 if (distance < minDistance) {
                     canInteractWithVehicle = true;
@@ -51,9 +51,8 @@ function animate() {
         if(interactionPrompt) interactionPrompt.style.display = 'none';
     }
 
-    // Use composer.render() if composer is available, otherwise fallback to renderer.render()
     if (composer) {
-        composer.render(deltaTime); // Pass deltaTime if your passes need it (some do)
+        composer.render(deltaTime);
     } else if (renderer && scene && camera) {
         renderer.render(scene, camera);
     }
@@ -61,39 +60,40 @@ function animate() {
 
 // --- INITIALIZATION ---
 function initGame() {
-    initScene(); // This now also initializes the composer
+    initScene();
     initLights();
     initEventListeners();
 
     player = new Player();
 
-    preLoadCarModels(() => {
-        createCity((parkedCars) => {
-            vehicles.push(...parkedCars);
+    // Directly call createCity, as it no longer depends on car models being pre-loaded by main.js
+    // createCity itself is synchronous now (or its async part is self-contained if any remains for other assets, but not for this plan)
+    createCity((parkedCars) => {
+        vehicles.push(...parkedCars); // Add parked cars from city generation
 
-            const playerCarModelPath = loadedCarModels[carModelPaths[0]] ? carModelPaths[0] : 0x44aaff;
-            const playerVehicle = new Vehicle(new THREE.Vector3(15, 0.5, 15), playerCarModelPath);
-            vehicles.push(playerVehicle);
+        // Player vehicle - uses default color or specified color
+        const playerVehicle = new Vehicle(new THREE.Vector3(15, 0.1, 15), 0x44aaff); // Y pos adjusted for box
+        vehicles.push(playerVehicle);
 
-            for (let i = 0; i < 3; i++) {
-                const x = (Math.random() - 0.5) * 200;
-                const z = (Math.random() - 0.5) * 200;
-                const randomCarModelPath = carModelPaths.length > 0 ? carModelPaths[Math.floor(Math.random() * carModelPaths.length)] : [0xff5555, 0x55ff55, 0x5555ff][i % 3];
-                vehicles.push(new Vehicle(new THREE.Vector3(x, 0.5, z), randomCarModelPath));
-            }
+        // Other AI vehicles - use random colors
+        const aiCarColors = [0xff5555, 0x55ff55, 0x5555ff, 0xffaa00, 0x00aaff];
+        for (let i = 0; i < 3; i++) {
+            const x = (Math.random() - 0.5) * 200;
+            const z = (Math.random() - 0.5) * 200;
+            vehicles.push(new Vehicle(new THREE.Vector3(x, 0.1, z), aiCarColors[i % aiCarColors.length])); // Y pos adjusted
+        }
 
-            if (loadingScreen) {
-                 setTimeout(() => {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingScreen.classList.add('hidden');
-                    }, 1000);
-                }, 500);
-            }
+        if (loadingScreen) {
+             setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                }, 1000);
+            }, 200); // Reduced delay as loading should be faster
+        }
 
-            lastTime = performance.now();
-            animate();
-        });
+        lastTime = performance.now();
+        animate();
     });
 }
 
