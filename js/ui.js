@@ -1,3 +1,5 @@
+import { keys } from './main.js';
+
 // UI Elements
 const interactionPrompt = document.getElementById('interaction-prompt');
 const loadingScreen = document.getElementById('loading-screen');

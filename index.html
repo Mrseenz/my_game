@@ -21,7 +21,7 @@
     <div id="ui-container">
         <div id="info-panel">
             <h1>URBAN GENESIS</h1>
-            
+
             <div class="controls-section">
                 <h2>CHARACTER CONTROLS</h2>
                 <p><span class="key">W</span> <span class="key">A</span> <span class="key">S</span> <span class="key">D</span> Move</p>
@@ -29,23 +29,23 @@
                 <p><span class="key">SPACE</span> Jump</p>
                 <p><span class="key">SHIFT</span> Sprint</p>
             </div>
-            
+
             <div class="controls-section">
                 <h2>VEHICLE CONTROLS</h2>
                 <p><span class="key">W</span> <span class="key">S</span> Accelerate/Reverse</p>
                 <p><span class="key">A</span> <span class="key">D</span> Steer</p>
                 <p><span class="key">F</span> Enter/Exit Vehicle</p>
             </div>
-            
+
             <div class="controls-section">
                 <h2>GAME CONTROLS</h2>
                 <p><span class="key">R</span> Reset Position</p>
                 <p><span class="key">ESC</span> Release Mouse</p>
             </div>
         </div>
-        
+
         <div id="interaction-prompt">Press 'F' to enter vehicle</div>
-        
+
         <div id="status-bar">
             <div class="status-item">
                 <div class="status-icon">🚶</div>
@@ -56,7 +56,7 @@
                 <div>100%</div>
             </div>
         </div>
-        
+
         <div id="hud">
             <div id="speedometer">
                 <div>SPEED</div>
@@ -65,7 +65,7 @@
             </div>
             <div id="mode-indicator">PEDESTRIAN MODE</div>
         </div>
-        
+
         <div class="debug-panel">
             <div>Controls Active</div>
             <div id="debug-keys">W:0 A:0 S:0 D:0 SPACE:0</div>
@@ -73,7 +73,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
+    <script src="https://unpkg.com/cannon-es@0.20.0/dist/cannon-es.js"></script>
     <script type="module" src="js/scene.js"></script>
     <script type="module" src="js/lighting.js"></script>
     <script type="module" src="js/player.js"></script>
